@@ -3,4 +3,5 @@ belote/__init__.py
 belote.egg-info/PKG-INFO
 belote.egg-info/SOURCES.txt
 belote.egg-info/dependency_links.txt
+belote.egg-info/requires.txt
 belote.egg-info/top_level.txt
