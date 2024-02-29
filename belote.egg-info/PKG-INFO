@@ -2,8 +2,3 @@ Metadata-Version: 2.1
 Name: belote
 Version: 0.0.0
 Summary: No description
-Requires-Dist: ipykernel
-Requires-Dist: matplotlib
-Requires-Dist: numpy
-Requires-Dist: tensorflow
-Requires-Dist: pillow

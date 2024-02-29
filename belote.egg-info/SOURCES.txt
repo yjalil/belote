@@ -1,5 +1,12 @@
 setup.py
 belote/__init__.py
+belote/card.py
+belote/deck.py
+belote/game.py
+belote/hand.py
+belote/main.py
+belote/original.py
+belote/player.py
 belote.egg-info/PKG-INFO
 belote.egg-info/SOURCES.txt
 belote.egg-info/dependency_links.txt

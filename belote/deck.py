@@ -29,5 +29,5 @@ class Deck :
         self.picks += [card]
         self.cards_str = [str(card) for card in self.cards]
         self.picks_str = [str(card) for card in self.picks]
-        print(len(self.cards))
+        # print(len(self.cards))
         return card

@@ -65,3 +65,7 @@ class BeloteGame:
                 for i in range(3):
                     player.hand.add_card(str(self.deck.pick_card()))
         return self
+
+
+    def playing_round():
+        pass
