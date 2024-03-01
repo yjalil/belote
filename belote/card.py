@@ -8,10 +8,13 @@ class Card:
         self.score = 0
 
     def __str__(self) -> str:
+
+        # print("Calling __str__ method of Card class")
         return str(self.suit) + '_' + str(self.value)
 
-    #def __eq__(self, other):
-        #return self.suit == other.suit and self.value == other.value
+
+    def __eq__(self, other):
+        return self.suit == other.suit and self.value == other.value
 
 
     def beats(self, other_card, trump_suit):
@@ -24,10 +27,15 @@ class Card:
 
 
     def update_score(self, trump_suit: str) -> int:
+        self.score =  self.SCORES.get(self.value, 0)
+        # print(self.SCORES[self.value])
 
         if self.value == 'neuf':
-            return 14 if self.suit == trump_suit else 0
+            if self.suit == trump_suit :
+                self.score = 14
+
         elif self.value == 'sota':
-            return 20 if self.suit == trump_suit else 2
-        else:
-            return self.SCORES.get(self.value, 0)
+            if self.suit == trump_suit :
+                self.score = 20
+            else :
+                self.score = 2

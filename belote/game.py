@@ -29,6 +29,7 @@ class BeloteGame:
 
         print('---------Human cards picked -----------')
         for card in self.human_player.hand.cards:
+            card.update_score(self.trump_suit)
             print(f"{card} - Score: {card.score}")
 
         return self
@@ -39,6 +40,7 @@ class BeloteGame:
                 player.hand = Hand([str(self.deck.pick_card()) for i in range(self.hand_size)])
                 print('---------Bot cards picked -----------')
                 for card in player.hand.cards:
+                    card.update_score(self.trump_suit)
                     print(f"{card} - Score: {card.score}")
 
         return self
@@ -51,7 +53,7 @@ class BeloteGame:
             print(f'------Round {self.round} : {player.name} to play-------')
             bids.append(player.makes_choice(self))
             if bids[-1] == 'take':
-               print(f"{player.name} have taken {self.trump_suit} as the trump suit.")
+            #    print(f"{player.name} have taken {self.trump_suit} as the trump suit.")
                print(f"Round {self.round} is over.")
 
                return self.gameover
@@ -69,14 +71,14 @@ class BeloteGame:
                       remaining_suits = [suit for suit in self.deck.suits if suit != self.trump_suit]
                       suit_choice = input(f"Choose a suit from {', '.join(remaining_suits)}: ").lower()
                       self.trump_suit = suit_choice
-                      print(f"{player.name} have taken {self.trump_suit} as the trump suit.")
+                    #   print(f"{player.name} have taken {self.trump_suit} as the trump suit.")
                       break
 
                else:
                      if bids[-1] == 'take':
                        remaining_suits = [suit for suit in self.deck.suits if suit != self.trump_suit]
                        self.trump_suit = random.choice(remaining_suits)
-                       print(f"{player.name} have taken {self.trump_suit} as the trump suit.")
+                    #    print(f"{player.name} have taken {self.trump_suit} as the trump suit.")
                        break
 
 
