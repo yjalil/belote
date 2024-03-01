@@ -19,20 +19,30 @@ class BeloteGame:
     def show_me_table(self,card_str):
         self.table_card = self.deck.pick_card(card_str)
         print('---------Table card picked -----------')
+        print(str(self.table_card))
         return self
 
-    def show_me_human_hand(self,cards_str):
+
+
+    def show_me_human_hand(self, cards_str):
         self.human_player.hand = Hand([str(self.deck.pick_card(card)) for card in cards_str])
 
         print('---------Human cards picked -----------')
+        for card in self.human_player.hand.cards:
+            print(f"{card} - Score: {card.score}")
+
         return self
 
     def first_dealing(self):
         for player in self.players:
-            if not player.human :
+            if not player.human:
                 player.hand = Hand([str(self.deck.pick_card()) for i in range(self.hand_size)])
                 print('---------Bot cards picked -----------')
+                for card in player.hand.cards:
+                    print(f"{card} - Score: {card.score}")
+
         return self
+
 
     def bidding_round(self):
         self.round += 1
@@ -41,18 +51,38 @@ class BeloteGame:
             print(f'------Round {self.round} : {player.name} to play-------')
             bids.append(player.makes_choice(self))
             if bids[-1] == 'take':
-                print(f"Round {self.round} is over.")
-                return self.gameover
+               print(f"{player.name} have taken {self.trump_suit} as the trump suit.")
+               print(f"Round {self.round} is over.")
+
+               return self.gameover
+
+        all_pass = all(bid == 'pass' for bid in bids)
+        if all_pass:
+           print(f"All players passed. Redoing the bidding round...")
+           self.trump_suit = None
+           bids = []
+           for player in self.players:
+               print(f'------Round {self.round} : {player.name} to play-------')
+               bids.append(player.makes_choice(self))
+               if player.human:
+                  if bids[-1] == 'take':
+                      remaining_suits = [suit for suit in self.deck.suits if suit != self.trump_suit]
+                      suit_choice = input(f"Choose a suit from {', '.join(remaining_suits)}: ").lower()
+                      self.trump_suit = suit_choice
+                      print(f"{player.name} have taken {self.trump_suit} as the trump suit.")
+                      break
+
+               else:
+                     if bids[-1] == 'take':
+                       remaining_suits = [suit for suit in self.deck.suits if suit != self.trump_suit]
+                       self.trump_suit = random.choice(remaining_suits)
+                       print(f"{player.name} have taken {self.trump_suit} as the trump suit.")
+                       break
 
 
-        if bids == ['pass' for i in range(5)]:
-            if self.round == 1:
-                print(f"{self.round} is over.")
-                return self.gameover
-            else :
-                print(f"The game is over.")
-                self.gameover = True
-                return self.gameover
+        return self.gameover
+
+
 
     def second_dealing(self):
         for player in self.players:
@@ -64,8 +94,32 @@ class BeloteGame:
             else :
                 for i in range(3):
                     player.hand.add_card(str(self.deck.pick_card()))
+
+        for player in self.players:
+            print(f"Hand of {player.name}: {player.hand}")
+
         return self
 
 
-    def playing_round():
-        pass
+    def play_trick(players, trick_winner_index, trump_suit):
+        leading_card = None
+        trick_winner_index = trick_winner_index
+        current_player_index = trick_winner_index
+
+        for _ in range(len(players[0].hand) - 1):
+             current_player = players[current_player_index]
+             played_card = current_player.play_card(leading_card, trump_suit)
+
+             if leading_card is None:
+               leading_card = played_card
+
+             if played_card.beats(leading_card, trump_suit):
+                trick_winner_index = current_player_index
+                leading_card = played_card
+
+             current_player_index = (current_player_index + 1) % len(players)
+
+             trick_winner = players[trick_winner_index]
+             trick_winner.add_trick(leading_card)
+
+        return trick_winner_index
