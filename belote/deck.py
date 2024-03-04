@@ -20,6 +20,9 @@ class Deck :
 
 
     def pick_card(self, card_str=None):
+        if not self.cards:
+            raise ValueError("No cards left in the deck")
+
         # print("Current cards in deck:", self.cards_str)
         # print("Received card_str:", card_str)
         if card_str:
